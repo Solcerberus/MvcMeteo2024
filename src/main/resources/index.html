@@ -30,9 +30,9 @@
         </thead>
         <tbody>
         <tr th:each="forecast : ${indexModel.forecasts}">
-            <td th:text="${forecast.dateTime}"></td>
-            <td th:text="${forecast.temperature}"></td>
-            <td><button class="btn btn-light btn-sm">Save</button></td>
+            <td class="date" th:text="${forecast.dateTime}"></td>
+            <td class="temperature" th:text="${forecast.temperature}"></td>
+            <td><button class="btn btn-light btn-sm" onclick="save(this)">Save</button></td>
         </tr>
         </tbody>
     </table>
@@ -48,6 +48,30 @@
 <script src="https://cdn.datatables.net/2.0.2/js/dataTables.min.js"></script>
 <script>
     let table = new DataTable('#myTable');
+    function save(element) {
+        var parent = element.parentElement.parentElement;
+        var date = parent.getElementsByClassName('date')[0].textContent;
+        var temperature = parent.getElementsByClassName('temperature')[0].textContent;
+
+        var data = {
+            "dateTime": date,
+            //"temperature": temperature
+        };
+
+        $.ajax({
+            url: '/saveData',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function(response) {
+                console.log("Data sent successfully");
+            },
+            error: function(error) {
+                console.log("Error while sending data: ", error);
+            }
+        });
+
+    }
 </script>
 
 </html>
