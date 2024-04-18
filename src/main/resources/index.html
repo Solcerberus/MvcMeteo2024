@@ -11,6 +11,10 @@
 
 <div class="container">
 
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Logout" class="btn btn-light">
+    </form>
+
     <form method="get">
         <select name="city" onchange="this.form.submit()">
             <option value="" th:selected="${indexModel.city==''}">Select city:</option>
