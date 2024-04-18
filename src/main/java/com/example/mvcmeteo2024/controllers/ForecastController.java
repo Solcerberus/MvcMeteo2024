@@ -3,6 +3,7 @@ package com.example.mvcmeteo2024.controllers;
 import com.example.mvcmeteo2024.models.ForecastModel;
 import com.example.mvcmeteo2024.models.IndexModel;
 import com.example.mvcmeteo2024.models.Root;
+import com.example.mvcmeteo2024.services.MeteoService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Controller;
@@ -26,48 +27,11 @@ public class ForecastController {
         var indexModel = new IndexModel();
         indexModel.city = city;
 
-        var forecasts = getForecasts(city);
+        var forecasts = MeteoService.getForecasts(city);
         indexModel.forecasts = forecasts;
 
         modelAndView.addObject("indexModel", indexModel);
 
         return modelAndView;
-    }
-
-    public static String GetMeteoForecastsJson(String city) throws IOException {
-        URL url = new URL("https://api.meteo.lt/v1/places/" + city + "/forecasts/long-term");
-
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.connect();
-
-        String text = "";
-        Scanner scanner = new Scanner(url.openStream());
-        while (scanner.hasNext()) {
-            text += scanner.nextLine();
-        }
-        scanner.close();
-        return text;
-    }
-
-    private static ArrayList<ForecastModel> getForecasts(String city) throws IOException {
-        var forecasts = new ArrayList<ForecastModel>();
-
-        if (city != null && !city.equals("")) {
-            var meteoForecastsJson = GetMeteoForecastsJson(city);
-            Root meteoObj = GetObjectFromJson(meteoForecastsJson);
-            for (var item : meteoObj.forecastTimestamps) {
-                var row = new ForecastModel(item.forecastTimeUtc, item.airTemperature);
-                forecasts.add(row);
-            }
-        }
-
-        return forecasts;
-    }
-
-    private static Root GetObjectFromJson(String json) throws JsonProcessingException {
-        ObjectMapper om = new ObjectMapper();
-        Root meteoObj = om.readValue(json, Root.class);
-        return meteoObj;
     }
 }
