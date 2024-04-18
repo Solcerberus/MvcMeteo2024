@@ -32,22 +32,7 @@ public class WebSecurityConfig {
         return http.build();
     }
 
-//    @Bean
-//    public UserDetailsService userDetailsService() {
-//        UserDetails user =
-//                User.withDefaultPasswordEncoder()
-//                        .username("user")
-//                        .password("password")
-//                        .roles("USER")
-//                        .build();
-//
-//        return new InMemoryUserDetailsManager(user);
-//    }
 
-    //    @Bean
-//    public static NoOpPasswordEncoder passwordEncoder() {
-//        return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
-//    }
     @Bean
     public static PasswordEncoder passwordEncoder() {
         var passwordEncoder = new MessageDigestPasswordEncoder("SHA-1");
