@@ -12,13 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
+import java.io.IOException;
 @RestController
 public class ForecastRestController {
     @Autowired
     private ForecastRepository forecastRepository;
     @PostMapping("/saveData")
-    public void saveData(@RequestBody ForecastSaveModel model) {
+    public void saveData(@RequestBody ForecastSaveModel model) throws IOException {
         var date = model.dateTime;
         var city = model.city;
 

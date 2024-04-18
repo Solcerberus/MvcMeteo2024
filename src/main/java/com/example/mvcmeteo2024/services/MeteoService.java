@@ -50,7 +50,16 @@ public class MeteoService {
         return meteoObj;
     }
 
-    public static String getTemperature(String city, String date) {
-        return "10";
+    public static String getTemperature(String city, String date) throws IOException {
+        var json = GetMeteoForecastsJson(city);
+        var object = GetObjectFromJson(json);
+
+        for (var item : object.forecastTimestamps) {
+            if (item.forecastTimeUtc.equals(date)) {
+                return Double.toString(item.airTemperature);
+            }
+        }
+
+        return "";
     }
 }
