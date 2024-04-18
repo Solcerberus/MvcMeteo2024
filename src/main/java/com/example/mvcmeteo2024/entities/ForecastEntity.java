@@ -13,4 +13,13 @@ public class ForecastEntity {
     public String City;
     public String date;
     public String temperature;
+
+    public ForecastEntity() {
+
+    }
+    public ForecastEntity(String City, String date, String temperature) {
+        this.City = City;
+        this.date = date;
+        this.temperature = temperature;
+    }
 }
