@@ -51,11 +51,13 @@
     function save(element) {
         var parent = element.parentElement.parentElement;
         var date = parent.getElementsByClassName('date')[0].textContent;
-        var temperature = parent.getElementsByClassName('temperature')[0].textContent;
+
+        var selectElement = document.getElementsByName('city')[0];
+        var city = selectElement.value;
 
         var data = {
             "dateTime": date,
-            //"temperature": temperature
+            "city": city,
         };
 
         $.ajax({
